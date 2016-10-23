@@ -1,1 +1,1 @@
-* */60 * * * root /bin/backup.sh
+* * */12 * * root /bin/backup.sh
