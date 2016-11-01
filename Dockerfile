@@ -36,11 +36,13 @@ FROM ubuntu:16.10
 ENV PATH "/shadow/src:$PATH"
 ENV TERM=xterm-256color
 
-RUN buildDeps="build-essential git" && \
+RUN buildDeps="build-essential git software-properties-common" && \
     set -x && \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y $buildDeps && \
+    apt-add-repository ppa:i2p-maintainers/i2p && \
+    apt-get update && \
     apt-get install -y libboost-all-dev \
     libqrencode-dev \
     libminiupnpc-dev \
@@ -52,6 +54,7 @@ RUN buildDeps="build-essential git" && \
     curl \
     unzip \
     cron \
+    i2p \
     tor && \
     git clone https://github.com/ShadowProject/shadow && \
     cd shadow/src && \
@@ -81,11 +84,28 @@ COPY fastsync.sh /bin/fastsync.sh
 RUN chmod +x ./bin/fastsync.sh
 
 RUN echo "forward-socks5   /               127.0.0.1:9050 ." >> /etc/privoxy/config
+RUN echo "forward .i2p localhost:4444" >> /etc/privoxy/config
 
 COPY crontab /etc/crontab
 RUN chmod 644 /etc/crontab
 
+COPY shadow.sh .
+RUN chmod +x shadow.sh
+ENV PATH ".:$PATH"
+
 ENV HTTP_PROXY "http://127.0.0.1:8118"
 ENV HTTPS_PROXY "http://127.0.0.1:8118"
+
+RUN printf "%s\n%s\n%s\n%s\n%s\n" \
+    "ControlPort 9051" \
+    "CookieAuthentication 1" \
+    "CookieAuthFileGroupReadable 1" \
+    "HiddenServiceDir /var/lib/tor/shadowcash-service/" \
+    "HiddenServicePort 51737 127.0.0.1:51737" \
+    >> /etc/tor/torrc
+
+EXPOSE 51737
+EXPOSE 9050
+EXPOSE 9051
 
 CMD ["entrypoint.sh"]

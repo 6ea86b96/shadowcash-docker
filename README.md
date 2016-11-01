@@ -10,7 +10,7 @@ Wallet.dat is backed up to ~/backups/shadowcoin/wallet.dat every 12 hours.
 ### Normal Usage
 
 ```bash
-docker run -d -v "$HOME/.shadowcoin:/root/.shadowcoin" -v "$HOME/backup/shadowcoin:/backup" --name shadow --restart always 0e8bee02/shadowcash-docker
+docker run -d -p "51737:51737" -v "$HOME/.shadowcoin:/root/.shadowcoin" -v "$HOME/backup/shadowcoin:/backup" --name shadow --restart always 0e8bee02/shadowcash-docker
 ```
 
 ### First Run
