@@ -21,4 +21,8 @@ if [ ! -e "$HOME/.shadowcoin/shadowcoin.conf" ]; then
         >> $HOME/.shadowcoin/shadowcoin.conf
 fi
 
+if [ ! -f "$HOME/.shadowcoin/blockchain.zip" ]; then
+    ./fastsync.sh
+fi
+
 supervisord
