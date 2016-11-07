@@ -22,7 +22,8 @@ if [ ! -e "$HOME/.shadowcoin/shadowcoin.conf" ]; then
 fi
 
 if [ ! -f "$HOME/.shadowcoin/blockchain.zip" ]; then
-    ./fastsync.sh
+    echo "No blockchain.zip found. Attempting to fast sync."
+    fastsync.sh
 fi
 
 supervisord
