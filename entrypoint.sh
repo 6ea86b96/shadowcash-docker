@@ -26,4 +26,7 @@ if [ ! -f "$HOME/.shadowcoin/blockchain.zip" ]; then
     fastsync.sh
 fi
 
+rm -f ~/.shadowcoin/peers.dat
+rm -rf /var/lib/tor/shadowcash-service
+
 supervisord
