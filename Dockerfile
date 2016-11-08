@@ -63,31 +63,19 @@ RUN buildDeps="build-essential git software-properties-common" && \
     apt-get remove -y $buildDeps && \
     apt-get autoremove -y --purge
 
-# or host machine directory
+# for host machine directory
 RUN mkdir /root/.shadowcoin
 VOLUME ["/root/.shadowcoin"]
-
-# So that a volume from the host machine can be mounted for backing up the
-# wallet.dat
-RUN mkdir /backup
-VOLUME ["/backup"]
 
 COPY supervisord.conf /etc/supervisord.conf
 
 COPY entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x ./bin/entrypoint.sh
-COPY backup.sh /bin/backup.sh
-RUN chmod +x ./bin/backup.sh
-COPY restore.sh /bin/restore.sh
-RUN chmod +x ./bin/restore.sh
 COPY fastsync.sh /bin/fastsync.sh
 RUN chmod +x ./bin/fastsync.sh
 
 RUN echo "forward-socks5   /               127.0.0.1:9050 ." >> /etc/privoxy/config
 RUN echo "forward .i2p localhost:4444" >> /etc/privoxy/config
-
-COPY crontab /etc/crontab
-RUN chmod 644 /etc/crontab
 
 COPY shadow.sh .
 RUN chmod +x shadow.sh
