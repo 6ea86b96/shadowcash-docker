@@ -35,6 +35,7 @@ FROM ubuntu:16.10
 
 ENV PATH "/shadow/src:$PATH"
 ENV TERM=xterm-256color
+ENV SHADOW_VERSION=v1.5.0.2
 
 RUN buildDeps="build-essential git software-properties-common" && \
     set -x && \
@@ -57,7 +58,9 @@ RUN buildDeps="build-essential git software-properties-common" && \
     i2p \
     tor && \
     git clone https://github.com/ShadowProject/shadow && \
-    cd shadow/src && \
+    cd shadow && \
+    git checkout "$SHADOW_VERSION" && \
+    cd src && \
     make -f makefile.unix && \
     strip shadowcoind && \
     apt-get remove -y $buildDeps && \

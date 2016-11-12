@@ -14,3 +14,6 @@ if [ -f ~/.shadowcoin/blockchain.zip ]; then
 else
     echo "Download failed. Going to have to sync the slow way :("
 fi
+
+service tor stop
+service privoxy stop
