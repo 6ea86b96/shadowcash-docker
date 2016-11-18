@@ -35,7 +35,7 @@ FROM ubuntu:16.10
 
 ENV PATH "/shadow/src:$PATH"
 ENV TERM=xterm-256color
-ENV SHADOW_VERSION=master
+ENV SHADOW_VERSION=v1.5.0.3
 
 RUN buildDeps="build-essential git software-properties-common" && \
     set -x && \
